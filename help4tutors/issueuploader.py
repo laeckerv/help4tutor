@@ -1,32 +1,41 @@
 import gitlab as git
-from getpass import *
 import os
 import logging as log
+import configparser
+from getpass import *
+
 
 class IssueUploader():
     """
+     Class which uploads the content of files [name].md in the src_dir to a
+     gitlab server with repositories the name [NAME] as issue. Eg. group1.md
+     would be uploaded to repo GROUP1.
 
+    :author: Lars Eckervogt
     """
-    def __init__(self, url, prefix, exercise, src_dir):
+    def __init__(self, config_file, prefix, exercise, src_dir):
         """
 
         :param url:
-        :param token:
-        :param groups:
-        :param excercise:
-        :param checkout_dir:
+        :param prefix:
+        :param exercise:
+        :param src_dir:
         :return:
         """
-        self.url = url
+        config = configparser.ConfigParser()
+        if os.path.isfile(config_file):
+            config.read(config_file)
+        else:
+            return FileExistsError
+
+        self.url = config['DEFAULT']['GitlabUrl']
         self.prefix = prefix
         self.exercise = exercise
         self.src_dir = src_dir
 
-
     def getToken(self):
         return getpass('Please provide private token from Gitlab (' + self.url + '):')
 
-    @property
     def upload(self):
         gl = git.Gitlab(self.url, self.getToken(), verify_ssl=False)
 

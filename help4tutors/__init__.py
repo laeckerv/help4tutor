@@ -2,9 +2,9 @@
 
 import argparse
 import logging as log
-import configparser
 from issueuploader import IssueUploader
 from exercisedownloader import ExerciseDownloader
+from colorama import init
 
 __version__ = '0.0.1'
 
@@ -20,25 +20,20 @@ def get_loglvl(verbosity, minimum=3):
     else:
         return VERBOSITY_LOGLEVEL[verbosity]
 
-def parseConfig(args):
-    config = configparser.ConfigParser()
-
-    # TODO Check if file exists
-    config.read(args.config)
-
-    args.url = config['DEFAULT']['GitlabUrl']
-
-
 def checkout(args):
-    exercise_downloader = ExerciseDownloader(args.url, args.groups, args.exercise, args.dest_dir)
+    exercise_downloader = ExerciseDownloader(args.config, args.group, args.exercise, args.dest_dir)
     exercise_downloader.download()
+    print('Done')
 
 def upload(args):
-    issue_uploader = IssueUploader(args.url, args.prefix, args.exercise, args.src_dir)
+    issue_uploader = IssueUploader(args.config, args.prefix, args.exercise, args.src_dir)
     issue_uploader.upload()
 
 def main():
+    # Init colorama
+    init()
 
+    # Argument parser
     parser = argparse.ArgumentParser(description='Utility for administrating a course as tutor')
     parser.add_argument('--version', action='version', version=__version__)
     parser.add_argument('-v', '--verbosity', default=0, action='count', help='increase output verbosity')
@@ -51,7 +46,7 @@ def main():
 
     ## Checkout
     parser_checkout = subparsers.add_parser('checkout')
-    parser_checkout.add_argument('group', help='group that should be checked out')
+    parser_checkout.add_argument('group', help='group that should be checked out (eg. 1,2,..)')
     parser_checkout.add_argument('tag', help='tag that should be checked out')
     parser_checkout.add_argument('dest_dir', help='directory in which repositories should be checked out')
     parser_checkout.set_defaults(func=checkout)
@@ -64,12 +59,7 @@ def main():
 
     args = parser.parse_args()
     log.basicConfig(format='%(levelname)s: %(message)s', level=get_loglvl(args.verbosity))
-    parseConfig(args)
     args.func(args)
-
-
-main()
-
 
 
 
