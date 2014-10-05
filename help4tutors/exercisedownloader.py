@@ -26,10 +26,10 @@ class ExerciseDownloader():
         self.dest_path = '%s%s/' % (dest_dir, exercise)
 
     @property
-    def groups(self):
+    def _groups(self):
         return self.__groups
 
-    @groups.setter
+    @_groups.setter
     def groups(self, groups):
         self.__groups = groups
 
