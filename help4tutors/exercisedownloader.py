@@ -39,10 +39,11 @@ class ExerciseDownloader():
         self.git_repo_prefix = config['DEFAULT']['git_repo_prefix']
 
     def clean(self):
-        input(Back.RED + Style.BRIGHT + 'This operation will clean the destination directory: %s' % self.dest_path \
+        if os.path.exists(self.dest_path):
+            input(Back.RED + Style.BRIGHT + 'This operation will clean the destination directory: %s' % self.dest_path \
               + Style.RESET_ALL + '\n' \
               + Back.RED + Style.BRIGHT + 'Press <Enter> to continue (CTRL-C to abort):' + Style.RESET_ALL)
-        shutil.rmtree(self.dest_path)
+            shutil.rmtree(self.dest_path)
 
     def download(self):
         self.loadConfig()
