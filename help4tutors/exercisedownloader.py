@@ -24,7 +24,14 @@ class ExerciseDownloader():
         self.group = group
         self.exercise = exercise
         self.dest_path = '%s%s/' % (dest_dir, exercise)
-        self.groups = ''
+
+    @property
+    def groups(self):
+        return self.__groups
+
+    @groups.setter
+    def groups(self, groups):
+        self.__groups = groups
 
     def loadConfig(self):
         config = configparser.ConfigParser()
@@ -34,7 +41,7 @@ class ExerciseDownloader():
             return FileExistsError
 
         self.url = config['DEFAULT']['gitlaburl']
-        self.groups = config['DEFAULT']['group_%s' % self.group].split(',')
+        self.groups(config['DEFAULT']['group_%s' % self.group].split(','))
         self.git_group_name = config['DEFAULT']['git_group_name']
         self.git_repo_prefix = config['DEFAULT']['git_repo_prefix']
 
