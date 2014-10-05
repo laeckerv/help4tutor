@@ -55,3 +55,5 @@ class ExerciseDownloader():
             tag = input('Select tag:')
             cmd_checkout_tag = 'cd  %s%s%s; git checkout tags/%s' % (self.dest_dir, self.git_repo_prefix, group,tag)
             subprocess.call([cmd_checkout_tag], shell=True)
+
+        return None

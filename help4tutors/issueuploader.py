@@ -68,3 +68,5 @@ class IssueUploader():
                     input('Press <Enter> to continue (CTRL-C to abort):')
 
                     gl.createissue(id_=project_id, title=title, description=content, labels=label)
+
+        return None
