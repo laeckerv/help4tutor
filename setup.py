@@ -27,7 +27,7 @@ setup(
 			'help4tutors=help4tutors:main',
 		],
 	},
-	classifierts=[
+	classifiers=[
 		'Environment :: Console',
 		'Programming Language :: Python :: 2',
 		'Programming Language :: Python :: 3',
