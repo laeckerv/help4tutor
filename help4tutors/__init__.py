@@ -2,8 +2,8 @@
 
 import argparse
 import logging as log
-from issueuploader import IssueUploader
-from exercisedownloader import ExerciseDownloader
+from . import issueuploader as IssueUploader
+from . import exercisedownloader as ExerciseDownloader
 from colorama import init
 
 __version__ = '0.0.2'
