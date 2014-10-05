@@ -45,7 +45,7 @@ class ExerciseDownloader():
         shutil.rmtree(self.dest_path)
 
     def download(self):
-        self.loadConfig(self.config_file)
+        self.loadConfig()
         self.clean()
 
         for group in self.groups:
