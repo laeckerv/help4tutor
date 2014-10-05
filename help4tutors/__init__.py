@@ -2,8 +2,8 @@
 
 import argparse
 import logging as log
-from . import issueuploader as IssueUploader
-from . import exercisedownloader as ExerciseDownloader
+from . import issueuploader
+from . import exercisedownloader
 from colorama import init
 
 __version__ = '0.0.2'
@@ -21,12 +21,12 @@ def get_loglvl(verbosity, minimum=3):
         return VERBOSITY_LOGLEVEL[verbosity]
 
 def checkout(args):
-    exercise_downloader = ExerciseDownloader(args.config, args.group, args.exercise, args.dest_dir)
+    exercise_downloader = exercisedownloader.ExerciseDownloader(args.config, args.group, args.exercise, args.dest_dir)
     exercise_downloader.download()
     print('Done')
 
 def upload(args):
-    issue_uploader = IssueUploader(args.config, args.prefix, args.exercise, args.src_dir)
+    issue_uploader = issueuploader.IssueUploader(args.config, args.prefix, args.exercise, args.src_dir)
     issue_uploader.upload()
 
 def main():
