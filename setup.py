@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages # Always prefer setuptools over distutils
 
-name="help4tutor"
+name="help4tutors"
 
 def get_version(relpath="__init__.py"):
 	"""read version info from file without importing it"""
