@@ -22,23 +22,27 @@ class IssueUploader():
         :param src_dir:
         :return:
         """
-        config = configparser.ConfigParser()
-        if os.path.isfile(config_file):
-            config.read(config_file)
-        else:
-            return FileExistsError
 
-        self.url = config['DEFAULT']['GitlabUrl']
+        self.config_file = config_file
         self.prefix = prefix
         self.exercise = exercise
         self.src_dir = src_dir
 
-        return self
+
+    def loadConfig(self):
+        config = configparser.ConfigParser()
+        if os.path.isfile(self.config_file):
+            config.read(self.config_file)
+        else:
+            return FileExistsError
+
+        self.url = config['DEFAULT']['GitlabUrl']
 
     def getToken(self):
         return getpass('Please provide private token from Gitlab (' + self.url + '):')
 
     def upload(self):
+        self.loadConfig()
         gl = git.Gitlab(self.url, self.getToken(), verify_ssl=False)
 
         if gl:
@@ -70,5 +74,3 @@ class IssueUploader():
                     input('Press <Enter> to continue (CTRL-C to abort):')
 
                     gl.createissue(id_=project_id, title=title, description=content, labels=label)
-
-        return None
