@@ -35,6 +35,8 @@ class ExerciseDownloader():
         self.git_repo_prefix = config['DEFAULT']['git_repo_prefix']
         self.clean()
 
+        return self
+
     def clean(self):
         input(Back.RED + Style.BRIGHT + 'This operation will clean the destination directory: %s' % self.dest_dir \
               + Style.RESET_ALL + '\n' \

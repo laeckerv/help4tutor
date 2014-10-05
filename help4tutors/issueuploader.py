@@ -33,6 +33,8 @@ class IssueUploader():
         self.exercise = exercise
         self.src_dir = src_dir
 
+        return self
+
     def getToken(self):
         return getpass('Please provide private token from Gitlab (' + self.url + '):')
 
