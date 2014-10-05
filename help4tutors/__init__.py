@@ -23,7 +23,6 @@ def get_loglvl(verbosity, minimum=3):
 def checkout(args):
     exercise_downloader = exercisedownloader.ExerciseDownloader(args.config, args.group, args.exercise, args.dest_dir)
     exercise_downloader.download()
-    print('Done')
 
 def upload(args):
     issue_uploader = issueuploader.IssueUploader(args.config, args.prefix, args.exercise, args.src_dir)

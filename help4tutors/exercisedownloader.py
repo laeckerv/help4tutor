@@ -24,7 +24,7 @@ class ExerciseDownloader():
         self.group = group
         self.exercise = exercise
         self.dest_path = '%s%s/' % (dest_dir, exercise)
-        self.groups = {}
+        self.groups = ''
 
     def loadConfig(self):
         config = configparser.ConfigParser()
