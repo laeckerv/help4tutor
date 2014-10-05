@@ -6,7 +6,7 @@ from issueuploader import IssueUploader
 from exercisedownloader import ExerciseDownloader
 from colorama import init
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 def get_loglvl(verbosity, minimum=3):
     VERBOSITY_LOGLEVEL = {0: log.CRITICAL,
