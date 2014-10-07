@@ -2,13 +2,13 @@
 
 import argparse
 import logging as log
-from . import issueuploader
-from . import exercisedownloader
+import issueuploader
+import exercisedownloader
 from colorama import init
 
 __version__ = '0.0.2'
 
-def get_loglvl(verbosity, minimum=3):
+def get_log_lvl(verbosity, minimum=3):
     VERBOSITY_LOGLEVEL = {0: log.CRITICAL,
                           1: log.ERROR,
                           2: log.WARNING,
@@ -57,8 +57,6 @@ def main():
     parser_upload.set_defaults(func=upload)
 
     args = parser.parse_args()
-    log.basicConfig(format='%(levelname)s: %(message)s', level=get_loglvl(args.verbosity))
+    log.basicConfig(format='%(levelname)s: %(message)s', level=get_log_lvl(args.verbosity))
     args.func(args)
-
-
 

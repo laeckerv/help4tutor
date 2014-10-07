@@ -1,4 +1,3 @@
-import gitlab as git
 import configparser
 import subprocess
 import shutil
@@ -24,32 +23,29 @@ class ExerciseDownloader():
         self.group = group
         self.exercise = exercise
         self.dest_path = '%s%s/' % (dest_dir, exercise)
-
-    @property
-    def _groups(self):
-        return self.__groups
-
-    @_groups.setter
-    def groups(self, groups):
-        self.__groups = groups
+        self.groups = ''
 
     def loadConfig(self):
         config = configparser.ConfigParser()
         if os.path.isfile(self.config_file):
             config.read(self.config_file)
         else:
-            return FileExistsError
+            return False
 
         self.url = config['DEFAULT']['gitlaburl']
-        self.groups(config['DEFAULT']['group_%s' % self.group].split(','))
+        self.groups = config['DEFAULT']['group_%s' % self.group].split(',')
         self.git_group_name = config['DEFAULT']['git_group_name']
         self.git_repo_prefix = config['DEFAULT']['git_repo_prefix']
 
     def clean(self):
         if os.path.exists(self.dest_path):
-            input(Back.RED + Style.BRIGHT + 'This operation will clean the destination directory: %s' % self.dest_path \
-              + Style.RESET_ALL + '\n' \
-              + Back.RED + Style.BRIGHT + 'Press <Enter> to continue (CTRL-C to abort):' + Style.RESET_ALL)
+            #input(Back.RED + Style.BRIGHT + 'This operation will clean the destination directory: {0:s}'.format(
+            #    self.dest_path)
+            #  + Style.RESET_ALL + '\n'
+            #  + Back.RED + Style.BRIGHT + 'Press <Enter> to continue (CTRL-C to abort):' + Style.RESET_ALL)
+            input('This operation will clean the destination directory: {0:s}'.format(
+                self.dest_path) + 'Press <Enter> to continue (CTRL-C to abort):')
+
             shutil.rmtree(self.dest_path)
 
     def download(self):
@@ -57,9 +53,8 @@ class ExerciseDownloader():
         self.clean()
 
         for group in self.groups:
-            cmd_checkout = 'git clone git@%s:%s%s%s.git %s%s%s' % (self.url.replace('https://', ''), \
-                                                                   self.git_group_name, self.git_repo_prefix, group, \
-                                                                   self.dest_path,  self.git_repo_prefix, group)
+            cmd_checkout = 'git clone git@{0:s}:{1:s}/{2:s}{3:s}.git {4:s}{2:s}{2:s}'.format(
+                self.url.replace('https://', ''), self.git_group_name, self.git_repo_prefix, group, self.dest_path)
             subprocess.call([cmd_checkout], shell=True)
 
             cmd_get_tags = 'cd  %s%s%s; git log --tags=%s* --simplify-by-decoration --pretty="format:%%ci %%d"' % ( \

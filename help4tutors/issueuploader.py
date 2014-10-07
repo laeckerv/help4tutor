@@ -34,7 +34,7 @@ class IssueUploader():
         if os.path.isfile(self.config_file):
             config.read(self.config_file)
         else:
-            return FileExistsError
+            return False
 
         self.url = config['DEFAULT']['GitlabUrl']
 
