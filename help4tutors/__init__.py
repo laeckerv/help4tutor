@@ -59,4 +59,3 @@ def main():
     args = parser.parse_args()
     log.basicConfig(format='%(levelname)s: %(message)s', level=get_log_lvl(args.verbosity))
     args.func(args)
-
