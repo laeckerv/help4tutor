@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages  # Always prefer setuptools over distutils
 
-name = "help4tutors"
+name = "help4tutor"
 
 
 def get_version(relpath="__init__.py"):
@@ -27,7 +27,7 @@ setup(
     keywords='tutor, gitlab, helper',
     entry_points={
         'console_scripts': [
-            'help4tutors=help4tutors:main',
+            'help4tutor=help4tutor:main',
         ],
     },
     install_requires=[
