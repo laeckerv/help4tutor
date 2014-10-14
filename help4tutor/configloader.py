@@ -1,5 +1,7 @@
 import os
+
 import configparser
+
 
 __author__ = 'mahieke'
 
@@ -22,12 +24,8 @@ class ConfigLoader():
         self.file=file
 
 
-    @property
     def loadConfig(self, props, section):
         """
-
-
-
 
         :type props: list
         :param props: List with properties you expect
@@ -38,15 +36,16 @@ class ConfigLoader():
         if os.path.isfile(self.file):
             config.read(self.file)
 
-            if self.__isValidConfig(config[section],props):
-                return config
+            if self.__isValidConfig(config, section, props):
+                return config[section]
 
 
-    def __isValidConfig(self, config, props):
-        keys = set(sorted(config.keys()))
+    def __isValidConfig(self, config, section, props):
+        keys = []
+        for i in config.options(section):
+            keys.append(i.encode('UTF-8'))
 
-        if keys.issubset(set(props)):
+        if set(props).issubset(set(keys)):
             return True
         else:
             return False
-
