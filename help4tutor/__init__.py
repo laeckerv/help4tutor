@@ -37,7 +37,7 @@ def main():
     parser.add_argument('--version', action='version', version=__version__)
     parser.add_argument('-v', '--verbosity', default=0, action='count', help='increase output verbosity')
     parser.add_argument('-c', '--config', default='.config', help='configuration file')
-    parser.add_argument('exercise', help='current exercise (eg. L1, L2, ...)')
+    parser.add_argument('-e', '--exercise', required=True, help='current exercise (eg. L1, L2, ...)')
 
     # Subparser action
     subparsers = parser.add_subparsers(dest='action')
@@ -45,15 +45,17 @@ def main():
 
     ## Checkout
     parser_checkout = subparsers.add_parser('checkout')
-    parser_checkout.add_argument('group', help='group that should be checked out (eg. 1,2,..)')
-    parser_checkout.add_argument('tag', help='tag that should be checked out')
-    parser_checkout.add_argument('dest_dir', help='directory in which repositories should be checked out')
+    parser_checkout.add_argument('-g', '--group', required=True, help='group that should be checked out (eg. 1,2,..)')
+    parser_checkout.add_argument('-t', '--tag', required=True, help='tag that should be checked out')
+    parser_checkout.add_argument('-d', '--dest_dir', required=True, help='directory in which repositories should be checked out')
     parser_checkout.set_defaults(func=checkout)
+
+    # TODO: Checkout WIKI
 
     ## Upload results
     parser_upload = subparsers.add_parser('upload')
-    parser_upload.add_argument('prefix', help='prefix for issue title (eg. Result)')
-    parser_upload.add_argument('src_dir', help='source directory for results (eg. /home/user/lab2014/results/')
+    parser_upload.add_argument('-p', '--prefix', required=True, help='prefix for issue title (eg. Result)')
+    parser_upload.add_argument('-s', '--src_dir', required=True, help='source directory for results (eg. /home/user/lab2014/results/')
     parser_upload.set_defaults(func=upload)
 
     args = parser.parse_args()
