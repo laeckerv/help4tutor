@@ -28,16 +28,7 @@ class IssueUploader():
 		self.prefix = prefix
 		self.exercise = exercise
 		self.src_dir = src_dir
-
-
-	def loadConfig(self):
-		config = configparser.ConfigParser()
-		if os.path.isfile(self.config_file):
-			config.read(self.config_file)
-		else:
-			return False
-
-		self.url = config['DEFAULT']['git_url']
+        self.config_props = []
 
 	def getToken(self):
 		return getpass('Please provide private token from Gitlab (' + self.url + '):')
