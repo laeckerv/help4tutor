@@ -7,7 +7,7 @@ import colorama
 class GroupDictionary():
 
     def __init__(self, exc=5, maxjoker=3):
-        
+
         assert isinstance(maxjoker, int)
         self.__dict = {u'maxJoker': maxjoker}
         assert isinstance(exc, int)
@@ -148,6 +148,7 @@ class GroupDictionary():
         if to_edit != None:
             to_edit['dismissed'] = False
             return self.__dict
+
 
     def __get_value(self, keys):
         my_dict = self.__dict
