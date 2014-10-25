@@ -2,8 +2,8 @@
 
 import argparse
 import logging as log
-import issueuploader
-import exercisedownloader
+import help4tutor.issueuploader
+import help4tutor.exercisedownloader
 from colorama import init
 
 __version__ = '0.0.2'
