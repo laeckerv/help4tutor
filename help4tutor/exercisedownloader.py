@@ -13,7 +13,7 @@ class ExerciseDownloader():
     :author: Lars Eckervogt
     """
 
-    conf_props = ['git_url', 'group_1', ' group_2' , 'groups', 'git_group_name', 'git_repo_prefix']
+    conf_props = ['git_url', 'group_1', 'group_2', 'group_3', 'group_4', 'groups', 'git_group_name', 'git_repo_prefix']
     conf_section = 'Default'
 
 
@@ -47,7 +47,7 @@ class ExerciseDownloader():
                 self.dest_path) + Style.RESET_ALL + '\n' + Back.RED + Style.BRIGHT
                 + 'Press <Enter> to continue (CTRL-C to abort):' + Style.RESET_ALL)
 
-        shutil.rmtree(self.dest_path)
+            shutil.rmtree(self.dest_path)
 
 
     def download(self):
@@ -63,6 +63,6 @@ class ExerciseDownloader():
                 self.dest_path, self.git_repo_prefix, group, self.exercise)
             subprocess.call([cmd_get_tags], shell=True)
 
-            tag = input('Select tag:')
+            tag = raw_input('Select tag:')
             cmd_checkout_tag = 'cd  %s%s%s; git checkout tags/%s' % (self.dest_path, self.git_repo_prefix, group, tag)
             subprocess.call([cmd_checkout_tag], shell=True)
