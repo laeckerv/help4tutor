@@ -1,5 +1,3 @@
-from test.test_contains import seq
-
 __author__ = 'Manuel Hieke'
 
 import gitlab as git

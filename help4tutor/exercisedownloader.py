@@ -17,7 +17,7 @@ class ExerciseDownloader():
     conf_section = 'Default'
 
 
-    def __init__(self, config_file, group, exercise, dest_dir):
+    def __init__(self, config_file, group, exercise, dest_dir, clean):
         """
 
         :param config_file:
@@ -31,8 +31,9 @@ class ExerciseDownloader():
         self.exercise = exercise
         self.dest_path = '%s%s/' % (dest_dir, exercise)
         self.groups = ''
+        self.clean = clean
 
-    def loadConfig(self):
+    def load_config(self):
         loader = ldr.ConfigLoader(self.config_file)
         config = loader.loadConfig(self.conf_props, self.conf_section)
 
@@ -51,8 +52,10 @@ class ExerciseDownloader():
 
 
     def download(self):
-        self.loadConfig()
-        self.clean()
+        self.load_config()
+
+        if self.clean:
+            self.clean()
 
         for group in self.groups:
             cmd_checkout = 'git clone git@{0:s}:{1:s}/{2:s}{3:s}.git {4:s}{2:s}{3:s}'.format(
