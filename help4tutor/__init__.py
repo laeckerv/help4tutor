@@ -48,7 +48,7 @@ def main():
     parser_checkout = subparsers.add_parser('checkout')
     parser_checkout.add_argument('-g', '--group', required=True, help='group that should be checked out (eg. 1,2,..)')
     parser_checkout.add_argument('-d', '--dest_dir', required=True, help='directory in which repositories should be checked out')
-    parser_checkout.add_argument('clean', help='WARNING: clean destination directory')
+    parser_checkout.add_argument('--clean', action="store_true", help='WARNING: clean destination directory')
     parser_checkout.set_defaults(func=checkout)
 
     # TODO: Checkout WIKI
