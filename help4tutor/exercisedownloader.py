@@ -17,7 +17,7 @@ class ExerciseDownloader():
     conf_section = 'Default'
 
 
-    def __init__(self, config_file, group, exercise, dest_dir, clean):
+    def __init__(self, config_file, group, exercise, dest_dir, clean_up):
         """
 
         :param config_file:
@@ -31,7 +31,7 @@ class ExerciseDownloader():
         self.exercise = exercise
         self.dest_path = '%s%s/' % (dest_dir, exercise)
         self.groups = ''
-        self.clean = clean
+        self.clean_up = clean_up
 
     def load_config(self):
         loader = ldr.ConfigLoader(self.config_file)
@@ -54,7 +54,7 @@ class ExerciseDownloader():
     def download(self):
         self.load_config()
 
-        if self.clean:
+        if self.clean_up:
             self.clean()
 
         for group in self.groups:
