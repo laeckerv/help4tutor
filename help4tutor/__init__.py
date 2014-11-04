@@ -43,13 +43,13 @@ def _ask_for_saving(where, func):
         print(Fore.RED + 'Changes were not saved.')
 
 
-def _checkout(args):
+def checkout(args):
     exercise_downloader = exercisedownloader.ExerciseDownloader(args.config, args.group, args.exercise,
                                                                 args.dest_dir, args.clean)
     exercise_downloader.download()
 
 
-def _upload(args):
+def upload(args):
     issue_uploader = issueuploader.IssueUploader(args.config, args.prefix, args.exercise, args.src_dir)
     issue_uploader.upload()
 
@@ -204,7 +204,7 @@ def main():
     parser_checkout.add_argument('-d', '--dest_dir', required=True,
                                  help='directory in which repositories should be checked out')
     parser_checkout.add_argument('--clean', action="store_true", help='WARNING: clean destination directory')
-    parser_checkout.set_defaults(func=_checkout)
+    parser_checkout.set_defaults(func=checkout)
 
 
     # TODO: Checkout WIKI
@@ -215,7 +215,7 @@ def main():
     parser_upload.add_argument('-e', '--exercise', required=True, help='current exercise (eg. L1, L2, ...)')
     parser_upload.add_argument('-s', '--src_dir', required=True,
                                help='source directory for results (eg. /home/user/lab2014/results/')
-    parser_upload.set_defaults(func=_upload)
+    parser_upload.set_defaults(func=upload)
 
     args = parser.parse_args()
     log.basicConfig(format='%(levelname)s: %(message)s', level=get_log_lvl(args.verbosity))
