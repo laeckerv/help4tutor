@@ -44,7 +44,8 @@ def _ask_for_saving(where, func):
 
 
 def _checkout(args):
-    exercise_downloader = exercisedownloader.ExerciseDownloader(args.config, args.group, args.exercise, args.dest_dir)
+    exercise_downloader = exercisedownloader.ExerciseDownloader(args.config, args.group, args.exercise,
+                                                                args.dest_dir, args.clean)
     exercise_downloader.download()
 
 
@@ -181,7 +182,7 @@ def main():
     dismiss_parser.add_argument('-pg', '--project_group', required=True, type=int,
                                 help='project group that should be dismissed')
     dismiss_parser.add_argument('-s', '--src_dir', required=True, help='directory where member file should be changed')
-    dismiss_parser.add_argument('reset', nargs='?', help='un-dismiss a project group')
+    dismiss_parser.add_argument('--reset', action="store_true", help='un-dismiss a project group')
     dismiss_parser.set_defaults(func=_dismiss)
 
     ## remove a project group
@@ -193,6 +194,7 @@ def main():
     delete_project_parser.set_defaults(func=_delete)
 
     ## Checkout
+
     parser_checkout = subparsers.add_parser('checkout',
                                             help='Checkout sources of specified groups (member file required)')
     parser_checkout.add_argument('-e', '--exercise', required=True, help='current exercise (eg. L1, L2, ...)')
@@ -201,7 +203,9 @@ def main():
                                  help='tag that should be checked out (member file required)')
     parser_checkout.add_argument('-d', '--dest_dir', required=True,
                                  help='directory in which repositories should be checked out')
+    parser_checkout.add_argument('--clean', action="store_true", help='WARNING: clean destination directory')
     parser_checkout.set_defaults(func=_checkout)
+
 
     # TODO: Checkout WIKI
 
