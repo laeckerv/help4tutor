@@ -13,7 +13,7 @@ class ExerciseDownloader():
     :author: Lars Eckervogt
     """
 
-    conf_props = ['git_url', 'group_1', ' group_2' , 'groups', 'git_group_name', 'git_repo_prefix']
+    conf_props = ['git_url', 'git_group_name', 'git_repo_prefix']
     conf_section = 'Default'
 
 
