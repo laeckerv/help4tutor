@@ -4,7 +4,6 @@ from setuptools import setup, find_packages  # Always prefer setuptools over dis
 
 name = "help4tutor"
 
-
 def get_version(relpath="__init__.py"):
     """read version info from file without importing it"""
     from os.path import dirname, join
@@ -27,7 +26,7 @@ setup(
     keywords='tutor, gitlab, helper',
     entry_points={
         'console_scripts': [
-            'help4tutor=help4tutor.main()',
+            'help4tutor=help4tutor.main',
         ],
     },
     install_requires=[
