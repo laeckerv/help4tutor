@@ -54,20 +54,20 @@ def upload(args):
     issue_uploader.upload()
 
 
-def _member(args):
+def member(args):
     member_configurator = groupsetup.GroupSetup(args.config, args.dest_dir)
     member_configurator.get_git_groups()
     _ask_for_saving(args.dest_dir, member_configurator.save_member_file)
 
 
-def _add(args):
+def add(args):
     member_configurator = groupsetup.GroupSetup(args.config, args.src_dir)
     member_configurator.load_member_file()
     member_configurator.add_group()
     _ask_for_saving(args.src_dir, member_configurator.save_member_file)
 
 
-def _show(args):
+def show(args):
     member_configurator = groupsetup.GroupSetup(args.config, args.src_dir)
     member_configurator.load_member_file()
     if args.group:
@@ -79,7 +79,7 @@ def _show(args):
         member_configurator.show_project_groups()
 
 
-def _percentage(args):
+def percentage(args):
     try:
         member_configurator = groupsetup.GroupSetup(args.config, args.src_dir)
         member_configurator.load_member_file()
@@ -89,7 +89,7 @@ def _percentage(args):
         print(Fore.RED + Style.BRIGHT + str(v))
 
 
-def _joker(args):
+def joker(args):
     try:
         member_configurator = groupsetup.GroupSetup(args.config, args.src_dir)
         member_configurator.load_member_file()
@@ -99,7 +99,7 @@ def _joker(args):
         print(Fore.RED + Style.BRIGHT + str(v))
 
 
-def _dismiss(args):
+def dismiss(args):
     try:
         member_configurator = groupsetup.GroupSetup(args.config, args.src_dir)
         member_configurator.load_member_file()
@@ -113,7 +113,7 @@ def _dismiss(args):
         print(Fore.RED + Style.BRIGHT + str(v))
 
 
-def _delete(args):
+def delete(args):
     try:
         member_configurator = groupsetup.GroupSetup(args.config, args.src_dir)
         member_configurator.load_member_file()
@@ -141,13 +141,13 @@ def main():
                                                help='Get all members of course from gitlab and save it at --src-dir (user prompt)')
     parser_member_conf.add_argument('-d', '--dest_dir', required=True,
                                     help='directory where member file should be saved')
-    parser_member_conf.set_defaults(func=_member)
+    parser_member_conf.set_defaults(func=member)
 
     ## add project group to an existing member file
     add_project_parser = subparsers.add_parser('add_project_group', help='Add new project groups (user prompt)')
     add_project_parser.add_argument('-s', '--src_dir', required=True,
                                     help='directory where member file should be changed')
-    add_project_parser.set_defaults(func=_add)
+    add_project_parser.set_defaults(func=add)
 
     ## show groups in member file
     show_member_parser = subparsers.add_parser('show_group', help='Show specified groups')
@@ -155,7 +155,7 @@ def main():
                                     help='directory where member file should be changed')
     show_member_parser.add_argument('-g', '--group',
                                     help='if specified, only show projects groups of group. Otherwise all project groups')
-    show_member_parser.set_defaults(func=_show)
+    show_member_parser.set_defaults(func=show)
 
     ## add percentage for a group
     percentage_parser = subparsers.add_parser('percentage',
@@ -166,7 +166,7 @@ def main():
     percentage_parser.add_argument('-p', '--percentage', required=True, help='percentage for the group')
     percentage_parser.add_argument('-s', '--src_dir', required=True,
                                    help='directory where member file should be changed')
-    percentage_parser.set_defaults(func=_percentage)
+    percentage_parser.set_defaults(func=percentage)
 
     ## add joker days for a group
     joker_parser = subparsers.add_parser('joker', help='Increase joker days for a group for a lab')
@@ -175,7 +175,7 @@ def main():
     joker_parser.add_argument('-d', '--days', required=True, help='amount of joker days')
     joker_parser.add_argument('-e', '--exercise', required=True, help='exercise where joker days are needed')
     joker_parser.add_argument('-s', '--src_dir', required=True, help='directory where member file should be changed')
-    joker_parser.set_defaults(func=_joker)
+    joker_parser.set_defaults(func=joker)
 
     ## dismiss or un_dismiss a group
     dismiss_parser = subparsers.add_parser('dismiss', help='Dismiss a project group from lab')
@@ -183,7 +183,7 @@ def main():
                                 help='project group that should be dismissed')
     dismiss_parser.add_argument('-s', '--src_dir', required=True, help='directory where member file should be changed')
     dismiss_parser.add_argument('--reset', action="store_true", help='un-dismiss a project group')
-    dismiss_parser.set_defaults(func=_dismiss)
+    dismiss_parser.set_defaults(func=dismiss)
 
     ## remove a project group
     delete_project_parser = subparsers.add_parser('remove_project_group', help='Remove project groups (user prompt)')
@@ -191,7 +191,7 @@ def main():
                                        help='project group that should be removed')
     delete_project_parser.add_argument('-s', '--src_dir', required=True,
                                        help='directory where member file should be changed')
-    delete_project_parser.set_defaults(func=_delete)
+    delete_project_parser.set_defaults(func=delete)
 
     ## Checkout
 
