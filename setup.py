@@ -31,11 +31,7 @@ setup(
     },
     install_requires=[
         'colorama',
-        'tableizer==0.0.3',
         'pyapi-gitlab',
-    ],
-    dependency_links=[
-        'git+ssh://github.com/Dr-Acular/tableizer.git#egg=tableizer-0.0.3'
     ],
     classifiers=[
         'Environment :: Console',
