@@ -1,5 +1,4 @@
 import os
-
 import configparser
 
 __author__ = 'mahieke'
