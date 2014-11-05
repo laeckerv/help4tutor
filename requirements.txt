@@ -1,2 +1,1 @@
 -e git+https://github.com/Dr-Acular/tableizer.git#egg=tableizer
--e .
