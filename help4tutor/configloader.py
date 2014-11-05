@@ -1,5 +1,8 @@
 import os
-import configparser
+try:
+    import configparser
+except ImportError:
+    import ConfigParser as configparser
 
 __author__ = 'mahieke'
 
