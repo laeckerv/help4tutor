@@ -1,1 +1,2 @@
+-e git+https://github.com/laeckerv/help4tutor.git#egg=help4tutor
 -e git+https://github.com/Dr-Acular/tableizer.git#egg=tableizer

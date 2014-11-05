@@ -26,7 +26,7 @@ setup(
     keywords='tutor, gitlab, helper',
     entry_points={
         'console_scripts': [
-            'help4tutor=help4tutor.main',
+            'help4tutor=help4tutor:main',
         ],
     },
     install_requires=[
