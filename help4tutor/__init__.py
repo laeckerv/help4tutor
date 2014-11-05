@@ -113,6 +113,7 @@ def _dismiss(args):
         print(Fore.RED + Style.BRIGHT + str(v))
 
 
+
 def _delete(args):
     try:
         member_configurator = groupsetup.GroupSetup(args.config, args.src_dir)
@@ -194,7 +195,6 @@ def main():
     delete_project_parser.set_defaults(func=_delete)
 
     ## Checkout
-
     parser_checkout = subparsers.add_parser('checkout',
                                             help='Checkout sources of specified groups (member file required)')
     parser_checkout.add_argument('-e', '--exercise', required=True, help='current exercise (eg. L1, L2, ...)')
@@ -210,7 +210,7 @@ def main():
     # TODO: Checkout WIKI
 
     ## Upload results
-    parser_upload = subparsers.add_parser('upload')
+    parser_upload = subparsers.add_parser('upload', help='Upload result files for a group.')
     parser_upload.add_argument('-p', '--prefix', required=True, help='prefix for issue title (eg. Result)')
     parser_upload.add_argument('-e', '--exercise', required=True, help='current exercise (eg. L1, L2, ...)')
     parser_upload.add_argument('-s', '--src_dir', required=True,

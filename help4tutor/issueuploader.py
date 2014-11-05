@@ -1,7 +1,7 @@
 import gitlab as git
 import os
 import logging as log
-import configloader as ldr
+import help4tutor.configloader as ldr
 
 from getpass import *
 
@@ -34,7 +34,7 @@ class IssueUploader():
         self.src_dir = src_dir
 
         loader = ldr.ConfigLoader(self.config_file)
-        config = loader.loadConfig(self.conf_props, self.conf_section)
+        config = loader.load_config(self.conf_props, self.conf_section)
 
         self.url = config['git_url']
 

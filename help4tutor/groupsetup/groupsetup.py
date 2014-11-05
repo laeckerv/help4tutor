@@ -23,7 +23,7 @@ class GroupSetup():
     :author: Manuel Hieke
     """
 
-    __conf_props = ['git_url', 'git_group_name', 'git_repo_prefix', 'git_lecture_name', 'member_file']
+    __conf_props = [u'git_url', u'git_group_name', u'git_repo_prefix', u'git_lecture_name', u'member_file']
     __conf_section = 'Default'
 
     def __init__(self, config_file, src_dir):
@@ -39,7 +39,7 @@ class GroupSetup():
         self.src_dir = src_dir
 
         loader = ldr.ConfigLoader(self.config_file)
-        config = loader.loadConfig(self.__conf_props, self.__conf_section)
+        config = loader.load_config(self.__conf_props, self.__conf_section)
 
         if not config:
             raise ImportError('Config file does not include all properties: ' + str(self.__conf_props))
@@ -114,7 +114,7 @@ class GroupSetup():
             self.__dictAccessor.print_groups_overview()
             while True:
                 print(colorama.Style.BRIGHT + u'Project groups which are not added yet:')
-                not_added = set(final_list.keys()).difference(set(self.__dictAccessor.get_project_groups('all')))
+                not_added = sorted(set(final_list.keys()).difference(set(self.__dictAccessor.get_project_groups('all'))), key=lambda t: int(t.split('_')[2]))
                 print(', '.join(not_added))
                 print(colorama.Style.BRIGHT + u'Existing Groups:')
                 groups = self.__dictAccessor.get_groups()
@@ -145,8 +145,7 @@ class GroupSetup():
     def delete_project_group(self, prj):
         project = self.__lecture_name + '_' + str(prj)
         self.__dictAccessor.delete_project(project)
-        print(colorama.Style.BRIGHT + 'Updated info of project group "' + project + '"')
-        self.__dictAccessor.print_project(project)
+        print(colorama.Style.BRIGHT + 'Project Group "' + project + '" was removed.')
 
     def show_project_groups(self, group=None):
         self.__dictAccessor.print_groups(group)
@@ -201,8 +200,6 @@ class GroupSetup():
 
 
     def __user_list_valid(self, user_list, git_list):
-        print(user_list)
-        print(git_list)
         ret_val = True
         for entry in user_list:
             if entry not in git_list:

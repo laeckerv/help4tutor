@@ -11,7 +11,7 @@ class GroupDictionary():
     def __init__(self, exc=5, maxjoker=3):
 
         assert isinstance(maxjoker, int)
-        self.__dict = {u'maxJoker': maxjoker}
+        self.__dict = {'maxJoker': maxjoker}
         assert isinstance(exc, int)
         self.__exc = exc
 
@@ -26,15 +26,20 @@ class GroupDictionary():
 
 
     def read_file(self, srcfile):
-        assert isinstance(srcfile, basestring)
+        try:
+            assert isinstance(srcfile, basestring)
+        except NameError:
+            assert isinstance(srcfile, str)
 
         with open(srcfile, 'r') as inp:
             load = json.load(inp)
             self.__dict = load
 
-            firstkey = load.keys()[0]
+            keys = list(load.keys())
+            keys.remove('maxJoker')
+            firstkey = keys[0]
             first = load[firstkey]
-            scndkey = first.keys()[0]
+            scndkey = list(first.keys())[0]
 
             self.__exc = len(load[firstkey][scndkey]['results'])
 
@@ -53,7 +58,7 @@ class GroupDictionary():
 
 
     def get_groups(self):
-        keys = self.__dict.keys()
+        keys = list(self.__dict.keys())
         keys.remove('maxJoker')
         return keys
 
@@ -66,9 +71,9 @@ class GroupDictionary():
         :param members: list with names of the members
         :return: returns the current dictionary of GroupDictionary
         """
-        if self.__dict.has_key(group) == True:
-            if not self.__dict[group].has_key(prj):
-                new_prj = {prj.decode('UTF-8'): self.__template}
+        if group in self.__dict:
+            if prj not in self.__dict[group]:
+                new_prj = {prj: self.__template}
 
                 new_prj[prj]['members'] = members
 
@@ -136,7 +141,7 @@ class GroupDictionary():
         to_edit = self.__get_value([group, prj, 'joker', lab])
 
         if to_edit != None:
-            taken_joker = sum(to_edit.values())
+            taken_joker = sum(to_edit.values()) - to_edit[lab]
             if taken_joker + int(days) <= self.__dict['maxJoker'] and int(days) > 0:
                 to_edit[lab] = int(days)
                 return self.__dict
@@ -166,13 +171,17 @@ class GroupDictionary():
         :param selector:
         :return: None or list with all groupnames
         '''
-        if not isinstance(selector, basestring):
-            raise TypeError('selector must be a valid string')
+        try:
+            if not isinstance(selector, basestring):
+                raise TypeError('selector must be a valid string')
+        except NameError:
+            if not isinstance(selector, str):
+                raise TypeError('selector must be a valid string')
 
         ret_val = []
 
         if selector == 'all':
-            ret_val = sorted(sum(map(lambda x:self.__dict[x].keys(), self.get_groups()), []))
+            ret_val = sorted(sum([list(self.__dict[x].keys()) for x in self.get_groups()], []))
         elif selector in self.get_groups():
             ret_val = sorted(self.__dict[selector].keys())
 
@@ -209,7 +218,7 @@ class GroupDictionary():
         for k in sorted(groups):
             tbl.next_layout([self.__width])
             tbl.add_row(['Group ' + k +':'], colorama.Back.WHITE + colorama.Fore.BLACK + colorama.Style.NORMAL)
-            for proj in sorted(self.__dict[k].keys(), key=lambda t: int(t.split('_')[2])):
+            for proj in sorted(list(self.__dict[k].keys()), key=lambda t: int(t.split('_')[2])):
                 self.__pprint_project(tbl,k,proj,more)
                 tbl.next_layout([self.__width])
                 tbl.add_row(['-'*(self.__width-1)], colorama.Back.WHITE + colorama.Fore.BLACK + colorama.Style.NORMAL)
@@ -244,15 +253,15 @@ class GroupDictionary():
             results = OrderedDict(sorted(self.__dict[group][proj]['results'].items()))
             jokers = OrderedDict(sorted(self.__dict[group][proj]['joker'].items()))
 
-            tbl.add_rrow(results.keys(), back + colorama.Fore.BLACK + colorama.Style.BRIGHT)
-            tbl.add_row(['results:'] + results.values(), back + colorama.Fore.BLACK + colorama.Style.NORMAL)
-            tbl.add_row(['joker:'] + jokers.values(), back + colorama.Fore.BLACK + colorama.Style.NORMAL)
+            tbl.add_rrow(list(results.keys()), back + colorama.Fore.BLACK + colorama.Style.BRIGHT)
+            tbl.add_row(['results:'] + list(results.values()), back + colorama.Fore.BLACK + colorama.Style.NORMAL)
+            tbl.add_row(['joker:'] + list(jokers.values()), back + colorama.Fore.BLACK + colorama.Style.NORMAL)
 
 
     def __get_group(self, project):
         ret_val = ''
         for next_parent in self.get_groups():
-            if project in self.__dict[next_parent].keys():
+            if project in list(self.__dict[next_parent].keys()):
                 ret_val = next_parent
                 return ret_val
 
@@ -263,7 +272,7 @@ class GroupDictionary():
         check = True
 
         for key in keys:
-            if my_dict.has_key(key):
+            if key in my_dict:
                 result = my_dict
                 my_dict = my_dict[key]
             else:
@@ -280,13 +289,13 @@ class GroupDictionary():
         joker = {}
 
         for i in range(1,self.__exc+1):
-            results.update({u'L'+str(i): 0.0})
-            joker.update({u'L'+str(i): 0})
+            results.update({'L'+str(i): 0.0})
+            joker.update({'L'+str(i): 0})
 
         return {
-            u'results': results,
-            u'joker': joker,
-            u'dismissed': False,
-            u'comments': []
+            'results': results,
+            'joker': joker,
+            'dismissed': False,
+            'comments': []
         }
 

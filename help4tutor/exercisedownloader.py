@@ -1,9 +1,9 @@
-import configparser
 import subprocess
 import shutil
 import os
 from colorama import Fore, Back, Style
-import configloader as ldr
+import help4tutor.configloader as ldr
+from help4tutor.utility import get_input as input
 
 
 class ExerciseDownloader():
@@ -33,18 +33,20 @@ class ExerciseDownloader():
         self.groups = ''
         self.clean_up = clean_up
 
+
     def load_config(self):
         loader = ldr.ConfigLoader(self.config_file)
-        config = loader.loadConfig(self.conf_props, self.conf_section)
+        config = loader.load_config(self.conf_props, self.conf_section)
 
         self.url = config['git_url']
         self.groups = config['group_%s' % self.group].split(',')
         self.git_group_name = config['git_group_name']
         self.git_repo_prefix = config['git_repo_prefix']
 
+
     def clean(self):
         if os.path.exists(self.dest_path):
-            raw_input(Back.RED + Style.BRIGHT + 'This operation will clean the destination directory: {0:s}'.format(
+            input(Back.RED + Style.BRIGHT + 'This operation will clean the destination directory: {0:s}'.format(
                 self.dest_path) + Style.RESET_ALL + '\n' + Back.RED + Style.BRIGHT
                 + 'Press <Enter> to continue (CTRL-C to abort):' + Style.RESET_ALL)
 
@@ -66,6 +68,6 @@ class ExerciseDownloader():
                 self.dest_path, self.git_repo_prefix, group, self.exercise)
             subprocess.call([cmd_get_tags], shell=True)
 
-            tag = raw_input('Select tag:')
+            tag = input('Select tag:')
             cmd_checkout_tag = 'cd  %s%s%s; git checkout tags/%s' % (self.dest_path, self.git_repo_prefix, group, tag)
             subprocess.call([cmd_checkout_tag], shell=True)
