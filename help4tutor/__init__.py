@@ -199,8 +199,6 @@ def main():
                                             help='Checkout sources of specified groups (member file required)')
     parser_checkout.add_argument('-e', '--exercise', required=True, help='current exercise (eg. L1, L2, ...)')
     parser_checkout.add_argument('-g', '--group', required=True, help='group that should be checked out (eg. A,B,..)')
-    parser_checkout.add_argument('-t', '--tag', required=True,
-                                 help='tag that should be checked out (member file required)')
     parser_checkout.add_argument('-d', '--dest_dir', required=True,
                                  help='directory in which repositories should be checked out')
     parser_checkout.add_argument('--clean', action="store_true", help='WARNING: clean destination directory')
