@@ -7,7 +7,6 @@ import gitlab as git
 import help4tutor.configloader as ldr
 import help4tutor.utility as util
 
-# import logging as log
 import colorama
 import os
 import shutil
@@ -81,6 +80,8 @@ class GroupSetup():
             print
 
             while len(final_list) != 0:
+                print(', '.join(list(final_list.keys())))
+
                 print(u'There are {} project groups left.'.format(len(final_list)))
                 user_list = util.user_prompt('Choose a list of project groups to add: ', self.__lecture_name + '_?',
                                              ['[1-9][0-9]*(,[1-9][0-9]*)*', 'done']).split(',')
@@ -193,10 +194,10 @@ class GroupSetup():
                 for entry in gl.getgroups(ident[0])['projects']:
                     repo_name = entry['name']
                     if re.match('^' + self.__lecture_name + '_[0-9]+', repo_name):
-                        project_members = self.__get_project_names(gl.listprojectmembers(entry['id'])[1:3])
+                        project_members = self.__get_project_names(gl.listprojectmembers(entry['id'])[1:])
                         temp_dict.update({repo_name: project_members})
 
-                return OrderedDict(sorted(temp_dict.items(), key=lambda k: k[0], reverse=True))
+                return OrderedDict(sorted(temp_dict.items(), key=lambda k: int(k[0].split('_')[2])))
 
 
     def __user_list_valid(self, user_list, git_list):
