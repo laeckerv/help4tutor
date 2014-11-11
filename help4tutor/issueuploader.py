@@ -57,6 +57,8 @@ class IssueUploader():
                 result_groups.append(group)
                 log.info('Added %s to the groups that have a ne result' % group)
 
+            ask = True
+
             for project in gl.getprojects(per_page=100):
                 if project['name'] in result_groups:
                     project_id = project['id']
@@ -74,6 +76,10 @@ class IssueUploader():
                     log.info('\t -> Title: %s ' % title)
                     log.info('\t -> Labels: %s ' % label)
 
-                    input('Press <Enter> to continue (CTRL-C to abort):')
+                    if ask:
+                        inp = input('Press <Enter> to continue, <c> to not get asked again (CTRL-C to abort):')
+                        print(inp)
+                        if inp.lower() == 'c':
+                            ask = False
 
                     gl.createissue(id_=project_id, title=title, description=content, labels=label)
