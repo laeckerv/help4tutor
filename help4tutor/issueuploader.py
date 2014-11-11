@@ -2,6 +2,7 @@ import gitlab as git
 import os
 import logging as log
 import help4tutor.configloader as ldr
+from help4tutor.utility import get_input as input
 
 from getpass import *
 
